@@ -4,14 +4,15 @@ import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User, UserDocument } from './schemas/user.schema';
+import { hash } from 'bcryptjs';
 
 @Injectable()
 export class UsersService {
 
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) { }
 
-  create(createUserDto: CreateUserDto) {
-    // TODO: Confirmação e encriptação de senha
+  async create(createUserDto: CreateUserDto) { 
+    createUserDto.password = await hash(createUserDto.password, 10);
     const createdUser = new this.userModel(createUserDto);
     return createdUser.save();
   }
