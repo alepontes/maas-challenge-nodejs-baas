@@ -11,9 +11,13 @@ export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) { }
 
   create(createUserDto: CreateUserDto) {
-    // TODO: Confirmação de senha
+    // TODO: Confirmação e encriptação de senha
     const createdUser = new this.userModel(createUserDto);
     return createdUser.save();
+  }
+
+  async findUserByEmail(email: string): Promise<User> {
+    return this.userModel.findOne({ email }).exec();
   }
 
   findAll() {
