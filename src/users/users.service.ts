@@ -12,6 +12,8 @@ export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) { }
 
   async create(createUserDto: CreateUserDto) { 
+    // Verificar senha 
+    // Verificar se email já cadastrado
     createUserDto.password = await hash(createUserDto.password, 10);
     const createdUser = new this.userModel(createUserDto);
     return createdUser.save();
@@ -25,8 +27,8 @@ export class UsersService {
     return `This action returns all users`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  findOne(id: string) {
+    return this.userModel.findById(id).populate('customer');
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
