@@ -1,4 +1,5 @@
 import { Controller, Request, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { CreateAccountDto } from 'src/account/dto/create-account.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { User } from 'src/users/schemas/user.schema';
 import { CustomersService } from './customers.service';
@@ -12,8 +13,6 @@ export class CustomersController {
 
   @Post()
   async create(@Request() req, @Body() createCustomerDto: CreateCustomerDto) {
-    console.log('req');
-    console.log(req.user);
     return this.customersService.create(req.user, createCustomerDto);
   }
 
@@ -25,6 +24,16 @@ export class CustomersController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.customersService.findOne(id);
+  }
+
+  @Post(':id/accounts')
+  createAccount(@Request() req, @Param('id') id: string, @Body() createAccountDto: CreateAccountDto) {
+    return this.customersService.createAccount(req.user, id, createAccountDto);
+  }
+
+  @Get(':id/accounts')
+  findAccount(@Request() req, @Param('id') id: string, @Body() createAccountDto: CreateAccountDto) {
+    return this.customersService.findAccount(req.user, id, createAccountDto);
   }
 
   @Patch(':id')
