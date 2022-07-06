@@ -127,11 +127,11 @@ export class CustomersService {
     return customer.account;
   }
 
-  update(id: number, updateCustomerDto: UpdateCustomerDto) {
-    return `This action updates a #${id} customer`;
-  }
+  // update(id: number, updateCustomerDto: UpdateCustomerDto) {
+  //   return `This action updates a #${id} customer`;
+  // }
 
-  remove(id: number) {
-    return `This action removes a #${id} customer`;
-  }
+  // remove(id: number) {
+  //   return `This action removes a #${id} customer`;
+  // }
 }

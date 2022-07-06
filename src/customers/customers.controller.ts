@@ -1,5 +1,6 @@
 import { Controller, Request, Get, Post, Body, Patch, Param, Delete, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { FileInterceptor, MulterModule } from '@nestjs/platform-express';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { CreateAccountDto } from 'src/account/dto/create-account.dto';
@@ -10,7 +11,9 @@ import { CustomersService } from './customers.service';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
 
+@ApiTags('Customers')
 @Controller('customers')
+@ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
 export class CustomersController {
 
@@ -62,13 +65,13 @@ export class CustomersController {
     return this.customersService.findAllTransactions(req.user, id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCustomerDto: UpdateCustomerDto) {
-    return this.customersService.update(+id, updateCustomerDto);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateCustomerDto: UpdateCustomerDto) {
+  //   return this.customersService.update(+id, updateCustomerDto);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.customersService.remove(+id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.customersService.remove(+id);
+  // }
 }

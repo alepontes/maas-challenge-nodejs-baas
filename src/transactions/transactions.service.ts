@@ -79,18 +79,18 @@ export class TransactionsService {
   }
 
   findAll() {
-    return `This action returns all transactions`;
+    return this.transactionModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} transaction`;
+  findOne(id: string) {
+    return this.transactionModel.findById(id).exec();
   }
 
-  update(id: number, updateTransactionDto: UpdateTransactionDto) {
-    return `This action updates a #${id} transaction`;
-  }
+  // update(id: number, updateTransactionDto: UpdateTransactionDto) {
+  //   return `This action updates a #${id} transaction`;
+  // }
 
-  remove(id: number) {
-    return `This action removes a #${id} transaction`;
-  }
+  // remove(id: number) {
+  //   return `This action removes a #${id} transaction`;
+  // }
 }

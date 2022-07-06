@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { User, UserDocument } from 'src/users/schemas/user.schema';
+// import { User, UserDocument } from 'src/users/schemas/user.schema';
 import { CreateAccountDto } from './dto/create-account.dto';
-import { UpdateAccountDto } from './dto/update-account.dto';
+// import { UpdateAccountDto } from './dto/update-account.dto';
 import { Account } from './entities/account.entity';
 import { AccountDocument } from './schemas/account.schema';
 import { bank } from './constants';
-import { Customer } from 'src/customers/entities/customer.entity';
+// import { Customer } from 'src/customers/entities/customer.entity';
 
 @Injectable()
 export class AccountService {
@@ -53,11 +53,11 @@ export class AccountService {
     return this.accountModel.findByIdAndUpdate(account.id, { balance: newBalance });
   }
 
-  update(id: number, updateAccountDto: UpdateAccountDto) {
-    return `This action updates a #${id} account`;
-  }
+  // update(id: number, updateAccountDto: UpdateAccountDto) {
+  //   return `This action updates a #${id} account`;
+  // }
 
-  remove(id: number) {
-    return `This action removes a #${id} account`;
-  }
+  // remove(id: number) {
+  //   return `This action removes a #${id} account`;
+  // }
 }
