@@ -4,4 +4,5 @@ export class CreateCustomerDto {
     acceptedTerms: boolean;
     document: string;
     phoneNumber: string;
+    verifiedDocument: boolean;
 }

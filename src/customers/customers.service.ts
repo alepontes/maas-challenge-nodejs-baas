@@ -48,6 +48,12 @@ export class CustomersService {
     return this.customerModel.findById(id);
   }
 
+  async verifyDocument(user, id: string, file: Express.Multer.File) {
+    const customer: any = await this.userService.getCustomerByUserId(user.id);
+    const updatedCustomer = await this.customerModel.findByIdAndUpdate(customer.id, { verifiedDocument: true });
+    return updatedCustomer;
+  }
+
   async createAccount(user: any, id: string, createAccountDto: CreateAccountDto) {
 
     const findedCustomer: any = await this.userService.getCustomerByUserId(user.id);
@@ -110,7 +116,7 @@ export class CustomersService {
     const customer = await this.userService.getCustomerByUserId(user.id);
     const account = await this.getAccountByCustomer(customer);
     return this.transactionsService.findByAccount(account);
-   }
+  }
 
   async getCustomerByDocument(document: string) {
     return this.customerModel.findOne({ document });

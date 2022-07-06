@@ -1,4 +1,7 @@
-import { Controller, Request, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Request, Get, Post, Body, Patch, Param, Delete, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { FileInterceptor, MulterModule } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
 import { CreateAccountDto } from 'src/account/dto/create-account.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CreateTransactionDto } from 'src/transactions/dto/create-transaction.dto';
@@ -10,6 +13,7 @@ import { UpdateCustomerDto } from './dto/update-customer.dto';
 @Controller('customers')
 @UseGuards(JwtAuthGuard)
 export class CustomersController {
+
   constructor(private readonly customersService: CustomersService) { }
 
   @Post()
@@ -25,6 +29,17 @@ export class CustomersController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.customersService.findOne(id);
+  }
+
+  @Post(':id/documents')
+  @UseInterceptors(FileInterceptor('file', {
+    storage: diskStorage({
+      destination: './storage',
+      filename: (req: any, file, callback) => callback(null, `${req.user.id}${extname(file.originalname)}`) ,
+    }),
+  }))
+  verifyDocument(@Request() req, @Param('id') id: string, @UploadedFile() file: Express.Multer.File) {
+    return this.customersService.verifyDocument(req.user, id, file);
   }
 
   @Post(':id/accounts')

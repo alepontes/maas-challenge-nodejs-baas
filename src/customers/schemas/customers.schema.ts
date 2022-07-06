@@ -24,6 +24,9 @@ export class Customer {
   @Prop()
   phoneNumber: string;
 
+  @Prop()
+  verifiedDocument: boolean;
+
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Account' })
   account: Account;
 }
