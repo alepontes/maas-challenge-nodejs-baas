@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
 import { Customer } from 'src/customers/entities/customer.entity';
+import { Transaction } from 'src/transactions/schemas/transactions.schema';
 
 export type AccountDocument = Account & Document;
 
@@ -22,10 +23,8 @@ export class Account {
   @Prop()
   balance: number;
 
-  // TODO: 
-  // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Transactions' })
-  // transactions: Link
-
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Transactions' })
+  transactions: [Transaction]
 }
 
 export const AccountSchema = SchemaFactory.createForClass(Account);

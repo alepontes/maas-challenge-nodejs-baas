@@ -31,6 +31,7 @@ export class AccountService {
   }
 
   private generateNumberAccount() {
+    // TODO: Gerar numero de conta
     return '12345-6';
   }
 
@@ -40,6 +41,16 @@ export class AccountService {
 
   findOne(id: string) {
     return this.accountModel.findById(id);
+  }
+
+  async creditAccount(account: Account | any, amount: number) {
+    const newBalance = account.balance + amount;
+    return this.accountModel.findByIdAndUpdate(account.id, { balance: newBalance });
+  }
+
+  async debitAccount(account: Account | any, amount: number) {
+    const newBalance = account.balance - amount;
+    return this.accountModel.findByIdAndUpdate(account.id, { balance: newBalance });
   }
 
   update(id: number, updateAccountDto: UpdateAccountDto) {

@@ -6,9 +6,10 @@ import { UsersModule } from './users/users.module';
 import { CustomersModule } from './customers/customers.module';
 import { AuthModule } from './auth/auth.module';
 import { AccountModule } from './account/account.module';
+import { TransactionsModule } from './transactions/transactions.module';
 
 @Module({
-  imports: [MongooseModule.forRoot('mongodb://localhost/modal'), UsersModule, CustomersModule, AuthModule, AccountModule],
+  imports: [MongooseModule.forRoot('mongodb://localhost/modal'), UsersModule, CustomersModule, AuthModule, AccountModule, TransactionsModule],
   controllers: [AppController],
   providers: [AppService],
 })
