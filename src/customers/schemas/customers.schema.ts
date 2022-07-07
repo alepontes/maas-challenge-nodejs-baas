@@ -4,8 +4,6 @@ import { Account } from 'src/account/entities/account.entity';
 
 export type CustomersDocument = Customer & Document;
 
-// TODO: add Address, Roles e Account
-
 @Schema()
 export class Customer {
 
