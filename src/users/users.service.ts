@@ -6,6 +6,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User, UserDocument } from './schemas/user.schema';
 import { hash } from 'bcryptjs';
 import { CustomersDocument } from 'src/customers/schemas/customers.schema';
+import { CustomException } from 'src/custom.exception';
 
 @Injectable()
 export class UsersService {
@@ -13,8 +14,16 @@ export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) { }
 
   async create(createUserDto: CreateUserDto, defaultRole = 'customer') {
-    // Verificar senha 
-    // Verificar se email já cadastrado
+
+    if (createUserDto.password != createUserDto.confirmPassword) {
+      throw new CustomException(['A confirmação de senha está incorreta'], 400);
+    } 
+
+    const existEmail = await this.userModel.findOne({ email: createUserDto.email });
+    if (existEmail) {
+      throw new CustomException(['Email já cadastrado'], 400);
+    }
+
     createUserDto.password = await hash(createUserDto.password, 10);
     const createdUser = new this.userModel({ ...createUserDto, role: defaultRole });
     return createdUser.save();

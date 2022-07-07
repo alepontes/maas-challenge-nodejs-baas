@@ -7,6 +7,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { LoginDto } from './auth/dto/login.dto';
 import { CreateUserDto } from './users/dto/create-user.dto';
 import { UsersService } from './users/users.service';
+import { CustomException } from './custom.exception';
 
 @Controller()
 export class AppController {

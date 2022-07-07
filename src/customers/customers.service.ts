@@ -4,6 +4,7 @@ import { Model, Query, QueryOptions } from 'mongoose';
 import { AccountService } from 'src/account/account.service';
 import { CreateAccountDto } from 'src/account/dto/create-account.dto';
 import { Account } from 'src/account/entities/account.entity';
+import { CustomException } from 'src/custom.exception';
 import { CreateTransactionDto, CreateTransactionDto2 } from 'src/transactions/dto/create-transaction.dto';
 import { TransactionsService } from 'src/transactions/transactions.service';
 import { User, UserDocument } from 'src/users/schemas/user.schema';
@@ -25,10 +26,17 @@ export class CustomersService {
   ) { }
 
   async create(user: any, createCustomerDto: CreateCustomerDto) {
-    // TODO: Confirmação de CPF
-    // TODO: Verificar se conta já existe
 
-    const findedUser = await this.userModel.findById(user.id);
+    const findedUser = await this.userModel.findById(user.id).populate('customer');
+    if (findedUser.customer) {
+      throw new CustomException(['Cliente já cadastrado'], 400);
+    }
+
+    const documentRegistered = await this.getCustomerByDocument(createCustomerDto.document);
+    if (documentRegistered) {
+      throw new CustomException(['Documento já cadastrado'], 400);
+    }
+
     const createdCustomer = new this.customerModel(createCustomerDto);
     const savedCustomer = await createdCustomer.save();
 
@@ -57,14 +65,13 @@ export class CustomersService {
   async createAccount(user: any, id: string, createAccountDto: CreateAccountDto) {
 
     const findedCustomer: any = await this.userService.getCustomerByUserId(user.id);
-
     if (!findedCustomer) {
-      return 'Cliente não encontrado';
+      throw new CustomException(['Cliente não encontrado'], 404);
     }
 
     const existAccount = await this.getAccountByCustomer(findedCustomer._id);
     if (existAccount) {
-      return 'Cliente já possui conta';
+      throw new CustomException(['Cliente já possui conta'], 400);
     }
 
     const account: any = await this.accountService.create(createAccountDto);
@@ -80,7 +87,7 @@ export class CustomersService {
     const findedCustomer = await this.customerModel.findOne({ user: user.id }).populate('account');
 
     if (!findedCustomer.account) {
-      return 'Cliente não possui conta';
+      throw new CustomException(['Cliente não possui conta'], 404);
     }
 
     return findedCustomer.account;
@@ -90,16 +97,16 @@ export class CustomersService {
 
     const fromCustomer: any = await this.userService.getCustomerByUserId(user.id);
     if (!fromCustomer) {
-      return 'Cliente não encontado';
+      throw new CustomException(['Cliente não encontado'], 404);
     }
 
     const toCustomer: any = await this.getCustomerByDocument(createTransactionDto.document);
     if (!toCustomer) {
-      return 'Cliente de destino não encontrado';
+      throw new CustomException(['Cliente de destino não encontrado'], 404);
     }
 
     if (toCustomer.document == fromCustomer.document) {
-      return 'Não é possível fazer uma transferencia para a própria conta';
+      throw new CustomException(['Não é possível fazer uma transferencia para a própria conta'], 404);
     }
 
     const createTransactionDto2: CreateTransactionDto2 = {

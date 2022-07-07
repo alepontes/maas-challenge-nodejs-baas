@@ -31,8 +31,9 @@ export class AccountService {
   }
 
   private generateNumberAccount() {
-    // TODO: Gerar numero de conta
-    return '12345-6';
+    const num = this.getRandomArbitrary(10000, 99999);
+    const digit = this.getRandomArbitrary(1, 9);
+    return `${num}-${digit}`;
   }
 
   async findAll() {
@@ -51,6 +52,13 @@ export class AccountService {
   async debitAccount(account: Account | any, amount: number) {
     const newBalance = account.balance - amount;
     return this.accountModel.findByIdAndUpdate(account.id, { balance: newBalance });
+  }
+
+  /**
+   * Gera um numero aleatório entre 2 valores
+   */
+  getRandomArbitrary(min: number, max: number): number {
+    return Math.random() * (max - min) + min;
   }
 
   // update(id: number, updateAccountDto: UpdateAccountDto) {

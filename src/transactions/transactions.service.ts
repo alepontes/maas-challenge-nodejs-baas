@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Document, Model } from 'mongoose';
 import { AccountService } from 'src/account/account.service';
 import { Account, AccountDocument } from 'src/account/schemas/account.schema';
+import { CustomException } from 'src/custom.exception';
 import { Customer } from 'src/customers/entities/customer.entity';
 import { CreateTransactionDto, CreateTransactionDto2 } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
@@ -61,7 +62,13 @@ export class TransactionsService {
       amount: createTransactionDto.amount,
     });
 
-    return createdTransaction.save();
+    const savedTransaction = await createdTransaction.save();
+
+    if (!authorized) {
+      throw new CustomException([message], 400);
+    }
+
+    return savedTransaction;
   }
 
   /**
