@@ -1,6 +1,8 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Request, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { Role, Roles } from 'src/auth/roles.decorator';
+import { RolesGuard } from 'src/auth/roles.guard';
 import { AccountService } from './account.service';
 // import { CreateAccountDto } from './dto/create-account.dto';
 // import { UpdateAccountDto } from './dto/update-account.dto';
@@ -8,7 +10,8 @@ import { AccountService } from './account.service';
 @ApiTags('Accounts')
 @Controller('accounts')
 @ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(Role.Admin)
 export class AccountController {
   constructor(private readonly accountService: AccountService) {}
 

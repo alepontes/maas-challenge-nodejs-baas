@@ -12,6 +12,9 @@ export class User {
   @Prop()
   password: string;
 
+  @Prop()
+  role: string;
+
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Customer' })
   customer: Customer;
 }

@@ -12,11 +12,11 @@ export class UsersService {
 
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) { }
 
-  async create(createUserDto: CreateUserDto) { 
+  async create(createUserDto: CreateUserDto, defaultRole = 'customer') {
     // Verificar senha 
     // Verificar se email já cadastrado
     createUserDto.password = await hash(createUserDto.password, 10);
-    const createdUser = new this.userModel(createUserDto);
+    const createdUser = new this.userModel({ ...createUserDto, role: defaultRole });
     return createdUser.save();
   }
 
@@ -35,6 +35,20 @@ export class UsersService {
 
   findOne(id: string) {
     return this.userModel.findById(id).populate('customer');
+  }
+
+  /**
+   * Retorna True se o usuário tiver a role enviada
+   */
+  async userHasRoles(id: string, requiredRole: string[]): Promise<boolean> {
+
+    const user = await this.userModel.findById(id);
+
+    if (!user) {
+      return false;
+    }
+
+    return requiredRole.some(role => role == user.role);
   }
 
   // update(id: number, updateUserDto: UpdateUserDto) {

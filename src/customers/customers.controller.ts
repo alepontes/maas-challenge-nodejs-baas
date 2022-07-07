@@ -5,6 +5,8 @@ import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { CreateAccountDto } from 'src/account/dto/create-account.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { Role, Roles } from 'src/auth/roles.decorator';
+import { RolesGuard } from 'src/auth/roles.guard';
 import { CreateTransactionDto } from 'src/transactions/dto/create-transaction.dto';
 import { User } from 'src/users/schemas/user.schema';
 import { CustomersService } from './customers.service';
@@ -14,7 +16,8 @@ import { UpdateCustomerDto } from './dto/update-customer.dto';
 @ApiTags('Customers')
 @Controller('customers')
 @ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(Role.Admin, Role.Customer)
 export class CustomersController {
 
   constructor(private readonly customersService: CustomersService) { }

@@ -9,8 +9,15 @@ import { AccountModule } from './account/account.module';
 import { TransactionsModule } from './transactions/transactions.module';
 
 @Module({
-  imports: [MongooseModule.forRoot('mongodb://localhost/modal'), UsersModule, CustomersModule, AuthModule, AccountModule, TransactionsModule],
+  imports: [
+    MongooseModule.forRoot('mongodb://localhost/modal'),
+    UsersModule,
+    CustomersModule,
+    AuthModule,
+    AccountModule,
+    TransactionsModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

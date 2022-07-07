@@ -14,7 +14,9 @@ import { AccountModule } from 'src/account/account.module';
     ]),
   ],
   controllers: [TransactionsController],
-  providers: [TransactionsService],
+  providers: [
+    TransactionsService,
+  ],
   exports: [TransactionsService],
 })
-export class TransactionsModule {}
+export class TransactionsModule { }
