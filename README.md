@@ -2,11 +2,11 @@
 As envs estão no arquivo [.env.exemple](./.env.exemple)
 
 ```bash 
-# subir o projeto
+# subir o banco
 docker compose up
 
-# derrubar o projeto
-docker compose down --rmi all
+# para subir o projeto
+npm start
 ```
 
 ## Observações sobre o design dos endpoints 
