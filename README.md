@@ -34,7 +34,22 @@ Um usuário `customer` é criado em `POST /auth/signup` e um usuário `admin` é
 
 > A documentação está disponível em [http://localhost:3000/docs](http://localhost:3000/docs/)
  
-Já deixei um usuário admin criado 
+### Fluxo de Cliente
+- Crie um usuário em `POST /auth/signup`
+- Faça login com esse usuário `POST /auth/signup`
+- Uso o token do login abaixo 
+- Crie um cliente em `POST /customers`
+- Crie uma conta em `POST /customers/{id}/account`
+- Repita os passo acima para um segundo cliente 
+- Faça uma transferencia em `/customers/{id}/transactions`
 
+**Upload de Arquivo**
+A rota `customers/{id}/documents` recebe um arquivo `file`, não consegui fazer pelo Swagger, parar testar use o Insomnia.
+
+
+### Fluxo de Admin
+O fluxo admin é mais simples, acesse qualquer endpoint
+
+Já deixei um usuário admin criado 
 admin@admin.com
 123456

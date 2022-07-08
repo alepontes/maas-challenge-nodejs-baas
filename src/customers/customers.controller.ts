@@ -55,8 +55,8 @@ export class CustomersController {
   }
 
   @Get(':id/accounts')
-  findAccount(@Request() req, @Param('id') id: string, @Body() createAccountDto: CreateAccountDto) {
-    return this.customersService.findAccount(req.user, id, createAccountDto);
+  findAccount(@Request() req, @Param('id') id: string, @Body() createAccountDto: any) {
+    return this.customersService.findAccount(req.user, id);
   }
 
   @Post(':id/transactions')

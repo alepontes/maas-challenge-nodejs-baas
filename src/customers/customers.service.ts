@@ -81,7 +81,7 @@ export class CustomersService {
     return account;
   }
 
-  async findAccount(user: any, id: string, createAccountDto: CreateAccountDto) {
+  async findAccount(user: any, id: string) {
 
     // TODO: Alterar para getCustomerByUserId
     const findedCustomer = await this.customerModel.findOne({ user: user.id }).populate('account');
