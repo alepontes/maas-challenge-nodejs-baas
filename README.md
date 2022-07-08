@@ -34,3 +34,7 @@ Um usuário `customer` é criado em `POST /auth/signup` e um usuário `admin` é
 
 > A documentação está disponível em [http://localhost:3000/docs](http://localhost:3000/docs/)
  
+Já deixei um usuário admin criado 
+
+admin@admin.com
+123456

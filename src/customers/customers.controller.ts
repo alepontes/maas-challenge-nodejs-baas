@@ -28,6 +28,7 @@ export class CustomersController {
   }
 
   @Get()
+  @Roles(Role.Admin)
   findAll() {
     return this.customersService.findAll();
   }
@@ -41,7 +42,7 @@ export class CustomersController {
   @UseInterceptors(FileInterceptor('file', {
     storage: diskStorage({
       destination: './storage',
-      filename: (req: any, file, callback) => callback(null, `${req.user.id}${extname(file.originalname)}`) ,
+      filename: (req: any, file, callback) => callback(null, `${req.user.id}${extname(file.originalname)}`),
     }),
   }))
   verifyDocument(@Request() req, @Param('id') id: string, @UploadedFile() file: Express.Multer.File) {
